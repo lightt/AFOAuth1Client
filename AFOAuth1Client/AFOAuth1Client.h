@@ -24,6 +24,7 @@
 
 typedef enum {
     AFHMACSHA1SignatureMethod = 1,
+    AFPlainTextsignatureMehtod = 2
 } AFOAuthSignatureMethod;
 
 @class AFOAuth1Token;

@@ -109,6 +109,8 @@ static inline NSString * NSStringFromAFOAuthSignatureMethod(AFOAuthSignatureMeth
     switch (signatureMethod) {
         case AFHMACSHA1SignatureMethod:
             return @"HMAC-SHA1";
+        case AFPlainTextsignatureMehtod:
+            return @"PLAINTEXT";
         default:
             return nil;
     }
@@ -224,6 +226,8 @@ static NSDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *identifi
     switch (self.signatureMethod) {
         case AFHMACSHA1SignatureMethod:
             return AFHMACSHA1Signature(request, self.secret, tokenSecret, self.stringEncoding);
+        case AFPlainTextsignatureMehtod:
+            return (tokenSecret) ? [self.secret stringByAppendingFormat:@"&%@",tokenSecret] : [self.secret stringByAppendingString:@"&"];
         default:
             return nil;
     }
@@ -387,11 +391,11 @@ static NSDictionary * AFKeychainQueryDictionaryWithIdentifier(NSString *identifi
                                 parameters:(NSDictionary *)parameters
 {
     NSMutableDictionary *mutableParameters = [parameters mutableCopy];
-    for (NSString *key in parameters) {
+    /*for (NSString *key in parameters) {
         if ([key hasPrefix:@"oauth_"]) {
             [mutableParameters removeObjectForKey:key];
         }
-    }
+    }*/
 
     NSMutableURLRequest *request = [super requestWithMethod:method path:path parameters:mutableParameters];
 
